@@ -19,14 +19,14 @@ class Api::V1::ConversationsController < Api::ApiApplicationController
   def index
     # http :3000/api/v1/conversations
     @conversations = current_user ? Conversation.where("seller_id = ? or buyer_id =?", current_user.id, current_user.id) : []
-    
+
     # render json: {conversations: @conversations}, status: :ok
   end
 
   def messages
     # http :3000//api/v1/conversations/1/messages
     conversation = Conversation.find(params[:id])
-    @per_page = 5
+    @per_page = 20
     @total_pages = (conversation.messages.count/@per_page.to_f).ceil
     @page = params[:page] || 1
     @messages = conversation.messages.page(@page).per(@per_page).padding(params[:offset])
