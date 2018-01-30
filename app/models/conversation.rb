@@ -10,6 +10,8 @@
 #  updated_at       :datetime
 #
 
+# the seller_id and buyer_id are confusing since it doesn't matter who is who - could be user1 user2 - but I left of it with the idea of a build out wher a user toggles their inbox bewteen selling messages and buying messages
+
 class Conversation < ActiveRecord::Base
   has_many :messages, -> { order(sent_at: :desc, id: :desc) }, inverse_of: :conversation, dependent: :destroy
 

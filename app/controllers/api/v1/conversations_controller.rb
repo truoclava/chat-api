@@ -3,16 +3,23 @@ class Api::V1::ConversationsController < Api::ApiApplicationController
     # http :3000/api/v1/conversations conversation:='{"seller_id": 1, "buyer_id": 2}'
     if Conversation.between(permitted_params.conversation[:seller_id], permitted_params.conversation[:buyer_id]).present?
        @conversation = Conversation.between(permitted_params.conversation[:seller_id], permitted_params.conversation[:buyer_id]).first
+
+       if permitted_params.conversation[:message_attributes]
+         @conversation.messages.build(permitted_params.conversation["message_attributes"])
+       end
+
     else
-      @conversation = Conversation.create!(permitted_params.conversation)
-      render json: {conversation: @conversation}, status: :created
+      @conversation = Conversation.new(buyer_id: permitted_params.conversation[:buyer_id], seller_id: permitted_params.conversation[:seller_id])
+      @conversation.messages.build(permitted_params.conversation["message_attributes"])
     end
+
+    @conversation.save
   end
 
   def index
     # http :3000/api/v1/conversations
-    @conversations = current_user ? Conversation.where("seller_id = ? or buyer_id =?", current_user.id, current_user.id) : Conversation.all.order(:last_activity_at)
-
+    @conversations = current_user ? Conversation.where("seller_id = ? or buyer_id =?", current_user.id, current_user.id) : []
+    
     # render json: {conversations: @conversations}, status: :ok
   end
 

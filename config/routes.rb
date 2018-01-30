@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       post '/login', to: 'sessions#create'
       delete '/logout', to: 'sessions#destroy'
-      resources :users, only: [:create, :update, :show]
+      resources :users, only: [:index, :create, :show]
       resources :conversations, only: [:create, :index] do
           member do
             get 'messages'

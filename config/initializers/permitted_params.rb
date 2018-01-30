@@ -5,7 +5,7 @@ PermittedParams.setup do |config|
 
   config.conversation do
     scalar :seller_id, :buyer_id
-    nested :messages
+    nested :message
   end
 
   config.message do
