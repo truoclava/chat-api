@@ -26,7 +26,7 @@ class Api::V1::ConversationsController < Api::ApiApplicationController
   def messages
     # http :3000//api/v1/conversations/1/messages
     conversation = Conversation.find(params[:id])
-    @per_page = 20
+    @per_page = 10
     @total_pages = (conversation.messages.count/@per_page.to_f).ceil
     @page = params[:page] || 1
     @messages = conversation.messages.page(@page).per(@per_page).padding(params[:offset])
