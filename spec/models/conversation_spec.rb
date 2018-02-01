@@ -26,4 +26,13 @@ RSpec.describe Conversation, type: :model do
       expect(conversation.last_activity_at).not_to be_nil
     end
   end
+
+  describe '#most_recent_message' do
+    it "should return the last message in conversation" do
+      conversation = create :conversation
+      expect(conversation.most_recent_message).to be_nil
+      conversation.messages << create(:message, conversation: conversation, sender: conversation.buyer)
+      expect(conversation.most_recent_message).not_to be_nil
+    end
+  end
 end

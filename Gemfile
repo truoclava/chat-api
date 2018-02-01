@@ -39,6 +39,7 @@ gem 'permitted_params'
 gem 'pry'
 gem 'mail'
 gem 'kaminari'
+gem 'webmock'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

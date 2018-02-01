@@ -7,9 +7,8 @@ class Api::ApiApplicationController < ApplicationController
       head :unauthorized unless api_current_user
     end
 
-    def ensure_this_user user_id=params[:user_id]
-      user_id ||= params[:id]
-      valid = api_current_user && (api_current_user.id == user_id.try(:to_i))
+    def ensure_this_user sender_id=params[:conversation][:message_attributes][:sender_id]
+      valid = api_current_user && (api_current_user.id == sender_id.try(:to_i))
       head :unauthorized unless valid
       valid
     end

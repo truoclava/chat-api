@@ -1,5 +1,5 @@
 class Api::V1::SessionsController < Api::ApiApplicationController
-  # before_action :ensure_authenticated_user, only: [:destroy]
+  before_action :ensure_authenticated_user, only: [:destroy]
 
   def create
     # http :3000/api/v1/login email=alex@stylelend.com password=password
@@ -16,6 +16,8 @@ class Api::V1::SessionsController < Api::ApiApplicationController
   end
 
   def destroy
+    access_token = AccessToken.find_by_token(token)
+    access_token.destroy if access_token
     sign_out(current_user)
     render json: {}, status: :ok
   end
